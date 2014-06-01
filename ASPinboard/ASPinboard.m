@@ -240,7 +240,7 @@
 - (void)searchBookmarksWithCookies:(NSArray *)cookies
                              query:(NSString *)query
                              scope:(ASPinboardSearchScopeType)scope
-                           success:(PinboardArrayBlock)success {
+                           completion:(PinboardSearchResultBlock)completion {
     NSString *username;
     for (NSHTTPCookie *cookie in cookies) {
         if ([cookie.name isEqualToString:@"login"]) {
@@ -264,6 +264,7 @@
             url = [NSURL URLWithString:[NSString stringWithFormat:@"https://pinboard.in/search/u:%@/network/?query=%@", username, encodedQuery]];
             break;
 
+        case ASPinboardSearchScopeNone:
         case ASPinboardSearchScopeAll:
             url = [NSURL URLWithString:[NSString stringWithFormat:@"https://pinboard.in/search/?query=%@&all=Search+All", encodedQuery]];
             break;
@@ -283,8 +284,8 @@
                                    [urls addObject:element.attributes[@"href"]];
                                }
  
-                               if (success) {
-                                   success(urls);
+                               if (completion) {
+                                   completion(urls, error);
                                }
                            }];
 }

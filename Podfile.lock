@@ -5,6 +5,6 @@ DEPENDENCIES:
   - hpple (= 0.2.0)
 
 SPEC CHECKSUMS:
-  hpple: dde62f905f482bbec50186280d1a1be2c881241b
+  hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.33.1

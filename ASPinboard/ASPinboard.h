@@ -55,7 +55,6 @@ typedef enum : NSInteger {
 @property (nonatomic, copy) void (^loginFailureCallback)();
 @property (nonatomic, copy) void (^loginTimeoutCallback)();
 
-+ (NSString *)urlEncode;
 + (ASPinboard *)sharedInstance;
 + (NSURL *)endpointURL;
 - (void)resetAuthentication;
