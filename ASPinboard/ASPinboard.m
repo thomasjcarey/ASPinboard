@@ -88,11 +88,11 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                    self.requestCompletedCallback();
-                                   if (error.code == NSURLErrorUserCancelledAuthentication) {
-                                       failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:nil]);
+                                   if (error.code == NSURLErrorUserCanceledAuthentication) {
+                                       failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
                                    }
                                    else if (data == nil) {
-                                       failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorEmptyResponse userInfo:nil]);
+                                       failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorEmptyResponse userInfo:[NSDictionary dictionaryWithObject:@"Empty response" forKey:NSLocalizedDescriptionKey]]);
                                    }
                                    else {
                                        id response = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -141,7 +141,7 @@
         [self.loginTimer invalidate];
         NSDictionary *payload = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         if (payload == nil) {
-            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:nil]);
+            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
         }
         else {
             self.token = [NSString stringWithFormat:@"%@:%@", self.username, payload[@"result"]];
@@ -189,7 +189,7 @@
             [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
         }
         else {
-            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:nil]);
+            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
         }
     }
 }
@@ -197,7 +197,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     if (connection == self.loginConnection) {
         self.loginRequestInProgress = NO;
-        self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:nil]);
+        self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
     }
 }
 
@@ -208,7 +208,7 @@
         if (self.loginRequestInProgress) {
             self.loginRequestInProgress = NO;
             [self.loginConnection cancel];
-            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorTimeout userInfo:nil]);
+            self.loginFailureCallback([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorTimeout userInfo:[NSDictionary dictionaryWithObject:@"Operation timed out" forKey:NSLocalizedDescriptionKey]]);
         }
     }
 }
@@ -301,7 +301,7 @@
     }
 
     if ([username length] == 0 || [password length] == 0) {
-        completion(nil, [NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:nil]);
+        completion(nil, [NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
     }
     else {
         self.searchScope = scope;
@@ -439,7 +439,7 @@
            parameters:@{@"url": url}
               success:^(id response) {
                   if ([response[@"posts"] count] == 0) {
-                      failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorBookmarkNotFound userInfo:nil]);
+                      failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorBookmarkNotFound userInfo:[NSDictionary dictionaryWithObject:@"Bookmark not found" forKey:NSLocalizedDescriptionKey]]);
                   }
                   else {
                       success(response[@"posts"][0]);
