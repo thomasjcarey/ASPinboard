@@ -88,7 +88,7 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                    self.requestCompletedCallback();
-                                   if (error.code == NSURLErrorUserCanceledAuthentication) {
+                                   if (error.code == NSURLErrorUserCancelledAuthentication) {
                                        failure([NSError errorWithDomain:ASPinboardErrorDomain code:PinboardErrorInvalidCredentials userInfo:[NSDictionary dictionaryWithObject:@"Invalid credentials" forKey:NSLocalizedDescriptionKey]]);
                                    }
                                    else if (data == nil) {
