@@ -229,10 +229,10 @@
               failure:failure];
 }
 
-- (void)rssKeyWithSuccess:(PinboardStringBlock)success {
+- (void)rssKeyWithSuccess:(PinboardStringBlock)success failure:(PinboardErrorBlock)failure {
     [self requestPath:@"user/secret" success:^(id response) {
         success(response[@"result"]);
-    }];
+    } failure:failure];
 }
 
 #pragma mark Bookmarks
